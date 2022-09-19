@@ -1,34 +1,42 @@
 class Dom {
   constructor(selector) {
-    this.$el = typeof selector === 'string' 
-    ? document.querySelector(selector) 
-    : selector
+    this.$el = typeof selector === 'string'
+      ? document.querySelector(selector)
+      : selector
   }
-  html(html){
-    if(typeof html === 'string'){
+  html(html) {
+    if (typeof html === 'string') {
       this.$el.innerHTML = html;
       return this
     }
     return this.$el.outerHTML.trim()
   }
-  clear(){
+  clear() {
     this.html('')
     return this
   }
-  on(eventType,callback){
-    this.$el.addEventListener(eventType,callback)
+  on(eventType, callback) {
+    this.$el.addEventListener(eventType, callback)
   }
-  of(eventType,callback){
-    this.$el.removeEventListener(eventType,callback)
+  of(eventType, callback) {
+    this.$el.removeEventListener(eventType, callback)
   }
-  append(node){
-    if(Element.prototype.append){
+  append(node) {
+    if (Element.prototype.append) {
       this.$el.append(node.$el)
-    }else{
+    } else {
       this.$el.appendChild(node.$el)
     }
   }
+  closest(selector) {
+    return $(this.$el.closest(selector))
+  }
+  getCoords() {
+    return this.$el.getBoundingClientRect()
+  }
 }
+
+
 export function $(selector) {
   return new Dom(selector)
 };
