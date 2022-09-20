@@ -28,6 +28,11 @@ class Dom {
       this.$el.appendChild(node.$el)
     }
   }
+
+  get data() {
+    return this.$el.dataset
+  }
+
   closest(selector) {
     return $(this.$el.closest(selector))
   }
