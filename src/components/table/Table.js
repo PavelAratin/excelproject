@@ -3,7 +3,8 @@ import { createTable } from "./table.template";
 import { resizeHandler } from "./table.resize";
 import { isCell, shouldResize } from "./table.function";
 import { TableSelection } from "./TableSelection";
-import {$} from '../../core/dom';
+import { $ } from '../../core/dom';
+import { matrix } from "./table.function";
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
@@ -15,10 +16,10 @@ export class Table extends ExcelComponent {
   toHTML() {
     return createTable(20)
   }
-  prepare(){
+  prepare() {
     console.log('prepare')
   }
-  init(){
+  init() {
     super.init();
     this.selection = new TableSelection();
     const $cell = this.$root.find(`[data-id="0:0"]`)
@@ -28,11 +29,15 @@ export class Table extends ExcelComponent {
 
   onMousedown(e) {
     if (shouldResize(e)) {
-      resizeHandler(this.$root,e)      
-    }else if(isCell(e)){
+      resizeHandler(this.$root, e)
+    } else if (isCell(e)) {
       const $target = $(e.target)
-      this.selection.select($target)
+      if (e.shiftKey) {
+        const $cells = matrix($target,this.selection.current).map(id => this.$root.find(`[data-id="${id}"]`))
+        this.selection.selectgroup($cells)
+      } else {
+        this.selection.select($target)
+      }
     }
   }
-
 }
