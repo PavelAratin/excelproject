@@ -79,7 +79,7 @@
     background-color: #3c74ff;
     opacity: 0;
     &:hover{
-      opacity: 1;
+      opacity: 1 !important;
       cursor: row-resize;
     }
   }
