@@ -1,19 +1,22 @@
 import { DomListener } from "./DomListener";
 
-export class ExcelComponent extends DomListener{
-  constructor($root,options = {}){
-    super($root,options.listeners)
-    this.name = options.name
+export class ExcelComponent extends DomListener {
+  constructor($root, options = {}) {
+    super($root, options.listeners)
+    this.name = options.name || ''
+    this.prepare()
   }
+  prepare(){}
   //возвращает шаблон компонента
-  toHTML(){
+  toHTML() {
     return ''
   }
 
-  init(){
+  init() {
     this.initDomListeners()
   }
-  destroy(){
+
+  destroy() {
     this.removeDomListeners()
   }
 }
