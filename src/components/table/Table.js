@@ -5,12 +5,13 @@ import { isCell, shouldResize } from "./table.function";
 import { TableSelection } from "./TableSelection";
 import { $ } from '../../core/dom';
 import { matrix } from "./table.function";
+import { nextSelector } from "./TableSelection";
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
   constructor($root) {
     super($root, {
-      listeners: ['mousedown']
+      listeners: ['mousedown', 'keydown']
     })
   }
   toHTML() {
@@ -33,11 +34,21 @@ export class Table extends ExcelComponent {
     } else if (isCell(e)) {
       const $target = $(e.target)
       if (e.shiftKey) {
-        const $cells = matrix($target,this.selection.current).map(id => this.$root.find(`[data-id="${id}"]`))
+        const $cells = matrix($target, this.selection.current).map(id => this.$root.find(`[data-id="${id}"]`))
         this.selection.selectgroup($cells)
       } else {
         this.selection.select($target)
       }
+    }
+  }
+  onKeydown(e) {
+    const keys = ['Enter', "Tab", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]
+    const { key } = e
+    if (keys.includes(key) && !e.shiftKey) {
+      e.preventDefault()
+      const id = this.selection.current.id(true)
+      const $next = this.$root.find(nextSelector(key, id));
+      this.selection.select($next)
     }
   }
 }
