@@ -12,7 +12,14 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
   text(text){
-    this.$el.textContent = text
+    if(typeof text === 'string'){
+      this.$el.textContent = text
+      return this
+    }
+    if(this.$el.tagName.toLoweCase === 'input'){
+      return this.$el.value.trim()
+    }
+    return this.$el.textContent.trim()
   }
   clear() {
     this.html('')
