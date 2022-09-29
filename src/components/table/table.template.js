@@ -26,7 +26,7 @@ function toCell(state, row) {
    data-col="${col}"
    data-id="${id}"
    data-type="cell"
-   style="...${width}"
+   style="width:${width}"
    >${data || ''}</div>
    `;
   }
