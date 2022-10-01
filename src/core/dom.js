@@ -11,12 +11,12 @@ class Dom {
     }
     return this.$el.outerHTML.trim()
   }
-  text(text){
-    if(typeof text === 'string'){
+  text(text) {
+    if (typeof text === 'string') {
       this.$el.textContent = text
       return this
     }
-    if(this.$el.tagName.toLoweCase === 'input'){
+    if (this.$el.tagName.toLoweCase === 'input') {
       return this.$el.value.trim()
     }
     return this.$el.textContent.trim()
@@ -51,35 +51,42 @@ class Dom {
   }
 
   css(styles = {}) {
-    Object.keys(styles).forEach(key =>{
+    Object.keys(styles).forEach(key => {
       this.$el.style[key] = styles[key]
     })
+  }
+
+  getStyles(styles = []) {
+    return styles.reduce((res, s) => {
+      res[s] = this.$el.style[s]
+      return res
+    }, {})
   }
 
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
   }
 
-  find(selector){
+  find(selector) {
     return $(this.$el.querySelector(selector))
   }
-  addClass(className){
+  addClass(className) {
     this.$el.classList.add(className)
   }
-  removeClass(className){
+  removeClass(className) {
     this.$el.classList.remove(className)
   }
-  id(parse){
-    if(parse){
+  id(parse) {
+    if (parse) {
       const parsed = this.id().split(':')
       return {
-        row:+parsed[0],
-        col:+parsed[1],
+        row: +parsed[0],
+        col: +parsed[1],
       }
     }
     return this.data.id
   }
-  focus(){
+  focus() {
     this.$el.focus()
     return this
   }
