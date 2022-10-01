@@ -3,11 +3,18 @@ import { storage } from "../core/utils"
 const defaultState = {
   rowState: {},
   colState: {},
-  dataState:{},
-  currentText:'',
+  dataState: {},
+  stylesState: {},
+  currentText: '',
   currentStyles: defaultStyles
 }
 
+const normalize = state => ({
+  ...state,
+  currentStyles: defaultState,
+  currentText: ''
+})
+
 export const initialState = storage('excel-state')
-  ? storage('excel-state')
+  ? normalize(storage('excel-state'))
   : defaultState

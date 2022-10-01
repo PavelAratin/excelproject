@@ -15,6 +15,9 @@ export class TableSelection {
     this.group.forEach($el => $el.removeClass('selected'))
     this.group = []
   }
+  get selectedIds(){
+    return this.group.map($el =>$el.id())
+  }
   selectgroup($group =[]){
     this.clear()
     this.group = $group
