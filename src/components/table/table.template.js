@@ -1,3 +1,6 @@
+import { defaultStyles } from "../../constans";
+import { camelToDashCase } from "../../core/utils";
+
 const CODES = {
   A: 65,
   Z: 90,
@@ -19,6 +22,9 @@ function toCell(state, row) {
     const id = `${row}:${col}`
     const width = getWidth(state.colState, col)
     const data = state.dataState[id]
+    const styles = Object.keys(defaultStyles)
+      .map(key => `${camelToDashCase(key)}:${defaultStyles[key]}`)
+      .join(';')
     return `
    <div 
    class="cell"
@@ -26,7 +32,7 @@ function toCell(state, row) {
    data-col="${col}"
    data-id="${id}"
    data-type="cell"
-   style="width:${width}"
+   style="${styles};width:${width}"
    >${data || ''}</div>
    `;
   }
@@ -80,7 +86,7 @@ export function createTable(rowsCount = 15, state = {}) {
     .map(withWidthFrom(state))
     .map(toColumn)
     .join('')
-  rows.push(createRow(null, cols,{}))
+  rows.push(createRow(null, cols, {}))
   for (let i = 0; i < rowsCount; i++) {
     const cells = new Array(colsCount)
       .fill('')
